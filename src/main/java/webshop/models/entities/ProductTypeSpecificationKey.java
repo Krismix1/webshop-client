@@ -8,7 +8,7 @@ public class ProductTypeSpecificationKey {
     @Id
     @GeneratedValue
     private long id;
-    @Column(name = "field", length = 32)
+    @Column(name = "key_name", length = 32)
     private String fieldName;
     @Column(nullable = false, length = 8)
     private String type;
