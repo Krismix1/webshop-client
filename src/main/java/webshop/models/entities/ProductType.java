@@ -12,4 +12,12 @@ public class ProductType {
     private String name;
     @Column(name = "descr", length = 64)
     private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
