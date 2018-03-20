@@ -1,12 +1,19 @@
 package webshop.models.domain;
 
 public class ProductTypeVO {
+    // TODO: 20-Mar-18 Add validation annotations
     private String name;
     private String description;
+    private ProductTypeSpecificationVO[] specifications;
 
-    public ProductTypeVO(String name, String description) {
+    public ProductTypeVO() {
+
+    }
+
+    public ProductTypeVO(String name, String description, ProductTypeSpecificationVO[] specifications) {
         this.name = name;
         this.description = description;
+        this.specifications = specifications;
     }
 
     public String getName() {
@@ -15,5 +22,9 @@ public class ProductTypeVO {
 
     public String getDescription() {
         return description;
+    }
+
+    public ProductTypeSpecificationVO[] getSpecifications() {
+        return specifications;
     }
 }

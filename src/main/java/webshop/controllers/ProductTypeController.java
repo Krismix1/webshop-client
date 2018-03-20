@@ -3,15 +3,20 @@ package webshop.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import webshop.controllers.http_exceptions.Http404Exception;
-import webshop.models.domain.ProductTypeSpecificationVO;
 import webshop.models.domain.ProductTypeVO;
 import webshop.models.entities.ProductType;
+import webshop.models.entities.ProductTypeSpecification;
+import webshop.models.entities.ProductTypeSpecificationKey;
 import webshop.services.ProductTypeService;
 
+import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/products/types")
@@ -42,11 +47,36 @@ public class ProductTypeController {
         return productTypeVOOptional.orElseThrow(Http404Exception::new);
     }
 
-    @PostMapping("/{name}")
-    public ResponseEntity<?> postProductType(@PathVariable("name") String productTypeName,
-                                             @RequestParam("desc") String description,
-                                             @RequestBody ProductTypeSpecificationVO[] specifications) {
+    @PostMapping
+    // TODO: 20-Mar-18 Apply validation for the parameter
+    public ResponseEntity<?> postProductType(@RequestBody ProductTypeVO productTypeVO) {
 
-        return ResponseEntity.ok().build();
+        final ProductType productType = new ProductType();
+        productType.setName(productTypeVO.getName());
+        productType.setDescription(productTypeVO.getDescription());
+
+        final List<ProductTypeSpecification> productTypeSpecifications = Stream.of(productTypeVO.getSpecifications())
+                .map(specification -> {
+                    ProductTypeSpecificationKey key = new ProductTypeSpecificationKey();
+                    key.setFieldName(specification.getKeyName());
+                    key.setType(specification.getKeyType());
+
+                    ProductTypeSpecification productTypeSpecification = new ProductTypeSpecification();
+                    productTypeSpecification.setValue(specification.getValue());
+                    productTypeSpecification.setProductTypeSpecificationKey(key);
+                    productTypeSpecification.setProductType(productType);
+
+                    return productTypeSpecification;
+                })
+                .collect(Collectors.toList());
+
+        productType.setSpecifications(productTypeSpecifications);
+
+        productTypeService.save(productType);
+
+        final URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(
+                "/{name}").buildAndExpand(productType.getName()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 }

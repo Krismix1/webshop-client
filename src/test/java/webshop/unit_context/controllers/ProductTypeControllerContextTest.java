@@ -36,8 +36,13 @@ public class ProductTypeControllerContextTest {
 
     @Test
     public void fetchAll() throws Exception {
+        final ProductType productType = new ProductType();
+        productType.setName("prod_1");
+        productType.setDescription("test desc");
+        productType.setSpecifications(Collections.emptyList());
+
         when(productTypeService.fetchAll())
-                .thenReturn(Collections.singletonList(new ProductType()));
+                .thenReturn(Collections.singletonList(productType));
 
         mockMvc.perform(get("/api/products/types"))
                 .andDo(print())
@@ -52,8 +57,13 @@ public class ProductTypeControllerContextTest {
 
     @Test
     public void fetchOne() throws Exception {
+        final ProductType productType = new ProductType();
+        productType.setName("prod_1");
+        productType.setDescription("test desc");
+        productType.setSpecifications(Collections.emptyList());
+
         when(productTypeService.findByName("prod_1"))
-                .thenReturn(Optional.of(new ProductType()));
+                .thenReturn(Optional.of(productType));
 
         mockMvc.perform(get("/api/products/types/prod_1"))
                 .andExpect(status().isOk())

@@ -9,8 +9,10 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 
+// TODO: 20-Mar-18 Remove the deserializer, as Spring will do the same
 @JsonDeserialize(using = ProductTypeSpecificationVO.ProductTypeSpecificationVODeserializer.class)
 public class ProductTypeSpecificationVO {
+    // TODO: 20-Mar-18 Add validation annotations
     private String keyName;
     private String value;
     private String keyType;
@@ -25,6 +27,18 @@ public class ProductTypeSpecificationVO {
 
     public String getKeyType() {
         return keyType;
+    }
+
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setKeyType(String keyType) {
+        this.keyType = keyType;
     }
 
     public static class ProductTypeSpecificationVODeserializer extends StdDeserializer<ProductTypeSpecificationVO> {

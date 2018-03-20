@@ -37,6 +37,9 @@ public class ProductTypeControllerTest {
                 .thenReturn(Collections.emptyList());
 
         ProductType productType = new ProductType();
+        productType.setName("prod_1");
+        productType.setDescription("test description");
+        productType.setSpecifications(Collections.emptyList());
 
         when(productTypeService.findByName("prod_1"))
                 .thenReturn(Optional.of(productType));
