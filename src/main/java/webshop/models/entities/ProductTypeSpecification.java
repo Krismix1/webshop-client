@@ -14,6 +14,7 @@ public class ProductTypeSpecification {
     private ProductTypeSpecificationKey productTypeSpecificationKey;
     @ManyToOne
     private ProductType productType;
+    private int position; // The position of the specification in the view
 
     public String getValue() {
         return value;
@@ -37,5 +38,13 @@ public class ProductTypeSpecification {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

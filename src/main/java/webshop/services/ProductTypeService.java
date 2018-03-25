@@ -38,6 +38,7 @@ public class ProductTypeService {
     }
 
     @Transactional
+    // FIXME: 20-Mar-18 Transactional doesn't have effect
     public ProductType save(ProductType productType) {
         // Save the keys to the database
         final List<ProductTypeSpecificationKey> keys = productType.getSpecifications()

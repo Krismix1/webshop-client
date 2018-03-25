@@ -1,0 +1,2 @@
+INSERT INTO `products` (`id`, `name`, `price`, `short_desc`) VALUES (1, 'Prod 1', 147, 'This is a short description');
+INSERT INTO `products` (`id`, `name`, `price`, `short_desc`) VALUES (2, 'Prod Bag', 100, 'This is another short description');
