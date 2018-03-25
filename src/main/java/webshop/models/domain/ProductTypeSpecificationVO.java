@@ -1,21 +1,21 @@
 package webshop.models.domain;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
-import java.io.IOException;
-
-// TODO: 20-Mar-18 Remove the deserializer, as Spring will do the same
-@JsonDeserialize(using = ProductTypeSpecificationVO.ProductTypeSpecificationVODeserializer.class)
 public class ProductTypeSpecificationVO {
     // TODO: 20-Mar-18 Add validation annotations
     private String keyName;
     private String value;
     private String keyType;
+
+    // @formatter:off
+    // Needed for Jackson Deserializer
+    protected ProductTypeSpecificationVO(){}
+    // @formatter:on
+
+    public ProductTypeSpecificationVO(String keyName, String value, String keyType) {
+        this.keyName = keyName;
+        this.value = value;
+        this.keyType = keyType;
+    }
 
     public String getKeyName() {
         return keyName;
@@ -39,29 +39,5 @@ public class ProductTypeSpecificationVO {
 
     public void setKeyType(String keyType) {
         this.keyType = keyType;
-    }
-
-    public static class ProductTypeSpecificationVODeserializer extends StdDeserializer<ProductTypeSpecificationVO> {
-
-        public ProductTypeSpecificationVODeserializer() {
-            this(null);
-        }
-
-        public ProductTypeSpecificationVODeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        @Override
-        public ProductTypeSpecificationVO deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-            JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-
-            ProductTypeSpecificationVO data = new ProductTypeSpecificationVO();
-
-            data.keyName = node.get("keyName").asText();
-            data.value = node.get("value").asText();
-            data.keyType = node.get("keyType").asText();
-
-            return data;
-        }
     }
 }

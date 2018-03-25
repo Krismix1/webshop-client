@@ -2,6 +2,7 @@ package webshop.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -29,12 +30,11 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "E-Commerce REST API",
-                "API for a web shop",
-                "1.0",
-                "Currently no terms of service",
-                new Contact("Cristian Betivu", "", ""),
-                "", "", Collections.emptyList()); // TODO: 25-Mar-18 Add something to the empty Strings :)
+        return new ApiInfoBuilder()
+                .title("E-Commerce REST API")
+                .description("API for a web shop")
+                .version("1.0")
+                .contact(new Contact("Cristian Betivu", "", ""))
+                .build();
     }
 }

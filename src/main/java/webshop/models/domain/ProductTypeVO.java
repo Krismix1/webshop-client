@@ -6,9 +6,10 @@ public class ProductTypeVO {
     private String description;
     private ProductTypeSpecificationVO[] specifications;
 
-    public ProductTypeVO() {
-
-    }
+    // @formatter:off
+    // Needed for Jackson Deserializer
+    protected ProductTypeVO() {}
+    // @formatter:on
 
     public ProductTypeVO(String name, String description, ProductTypeSpecificationVO[] specifications) {
         this.name = name;

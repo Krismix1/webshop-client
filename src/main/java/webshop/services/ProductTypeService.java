@@ -61,11 +61,11 @@ public class ProductTypeService {
             final ProductTypeSpecificationVO[] specifications = productType.getSpecifications()
                     .stream()
                     .map(specification -> {
-                        ProductTypeSpecificationVO specificationVO = new ProductTypeSpecificationVO();
-                        specificationVO.setValue(specification.getValue());
-                        specificationVO.setKeyName(specification.getProductTypeSpecificationKey().getFieldName());
-                        specificationVO.setKeyType(specification.getProductTypeSpecificationKey().getType());
-                        return specificationVO;
+                        final String value = specification.getValue();
+                        final String keyName = specification.getProductTypeSpecificationKey().getKeyName();
+                        final String type = specification.getProductTypeSpecificationKey().getType();
+
+                        return new ProductTypeSpecificationVO(keyName, value, type);
                     }).toArray(ProductTypeSpecificationVO[]::new);
 
             return new ProductTypeVO(productType.getName(), productType.getDescription(), specifications);

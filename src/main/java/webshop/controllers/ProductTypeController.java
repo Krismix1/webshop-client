@@ -58,7 +58,7 @@ public class ProductTypeController {
         final List<ProductTypeSpecification> productTypeSpecifications = Stream.of(productTypeVO.getSpecifications())
                 .map(specification -> {
                     ProductTypeSpecificationKey key = new ProductTypeSpecificationKey();
-                    key.setFieldName(specification.getKeyName());
+                    key.setKeyName(specification.getKeyName());
                     key.setType(specification.getKeyType());
 
                     ProductTypeSpecification productTypeSpecification = new ProductTypeSpecification();
