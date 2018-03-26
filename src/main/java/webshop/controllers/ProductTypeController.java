@@ -13,6 +13,7 @@ import webshop.models.entities.ProductTypeSpecification;
 import webshop.models.entities.ProductTypeSpecificationKey;
 import webshop.services.ProductTypeService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ProductTypeController {
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
     @ApiOperation(value = "Create a new product type", notes = "On success, returns the URI for the new created resource")
     // TODO: 20-Mar-18 Apply validation for the parameter
-    public ResponseEntity<?> postProductType(@RequestBody ProductTypeVO productTypeVO) {
+    public ResponseEntity<?> postProductType(@Valid @RequestBody ProductTypeVO productTypeVO) {
 
         final ProductType productType = new ProductType();
         productType.setName(productTypeVO.getName());

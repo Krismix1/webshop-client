@@ -1,6 +1,7 @@
 package webshop.models.domain;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ProductTypeVO {
     // TODO: 20-Mar-18 Add validation annotations
@@ -8,7 +9,7 @@ public class ProductTypeVO {
     private String name;
     @NotBlank
     private String description;
-    @NotBlank
+    @NotNull
     private ProductTypeSpecificationVO[] specifications;
 
     // @formatter:off
