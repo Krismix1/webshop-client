@@ -1,5 +1,7 @@
 package webshop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/products/types")
+@Api(tags = {"product-types"})
 public class ProductTypeController {
 
     private final ProductTypeService productTypeService;
@@ -29,14 +32,16 @@ public class ProductTypeController {
         this.productTypeService = productTypeService;
     }
 
-    @GetMapping
+    @GetMapping(consumes = {"application/json"}, produces = {"application/json"})
+    @ApiOperation(value = "Get all product types.")
     public Collection<ProductTypeVO> fetchAll() {
         return productTypeService.fetchAll().stream()
                 .map(ProductTypeService.mapToValueObject())
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping(value = "/{name}", consumes = {"application/json"}, produces = {"application/json"})
+    @ApiOperation(value = "Get a product type.")
     public ProductTypeVO fetchOne(@PathVariable("name") String name) {
 
         final Optional<ProductType> productTypeOptional = productTypeService.findByName(name);
@@ -47,7 +52,8 @@ public class ProductTypeController {
         return productTypeVOOptional.orElseThrow(Http404Exception::new);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
+    @ApiOperation(value = "Create a new product type", notes = "On success, returns the URI for the new created resource")
     // TODO: 20-Mar-18 Apply validation for the parameter
     public ResponseEntity<?> postProductType(@RequestBody ProductTypeVO productTypeVO) {
 

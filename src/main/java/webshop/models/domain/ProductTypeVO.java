@@ -1,9 +1,14 @@
 package webshop.models.domain;
 
+import javax.validation.constraints.NotBlank;
+
 public class ProductTypeVO {
     // TODO: 20-Mar-18 Add validation annotations
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotBlank
     private ProductTypeSpecificationVO[] specifications;
 
     // @formatter:off

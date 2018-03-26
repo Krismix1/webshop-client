@@ -1,9 +1,14 @@
 package webshop.models.domain;
 
+import javax.validation.constraints.NotBlank;
+
 public class ProductTypeSpecificationVO {
     // TODO: 20-Mar-18 Add validation annotations
+    @NotBlank
     private String keyName;
+    @NotBlank
     private String value;
+    @NotBlank
     private String keyType;
 
     // @formatter:off
@@ -27,17 +32,5 @@ public class ProductTypeSpecificationVO {
 
     public String getKeyType() {
         return keyType;
-    }
-
-    public void setKeyName(String keyName) {
-        this.keyName = keyName;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void setKeyType(String keyType) {
-        this.keyType = keyType;
     }
 }
