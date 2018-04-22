@@ -1,6 +1,5 @@
 package dk.cristi.app.webshop.client.controllers;
 
-import dk.cristi.app.webshop.client.controllers.http_exceptions.Http404Exception;
 import dk.cristi.app.webshop.client.models.domain.ShoppingCart;
 import dk.cristi.app.webshop.client.models.domain.ShoppingCartItem;
 import dk.cristi.app.webshop.client.services.ShoppingCartService;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -25,22 +25,17 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @GetMapping("/items")
+    @GetMapping("/{uid}/items")
     @ApiOperation(value = "Get all items in the shopping cart.")
-    public List<ShoppingCartItem> getItems() {
-        return shoppingCartService.getItems();
+    public List<ShoppingCartItem> getItems(@PathVariable("uid") String userId) {
+        return shoppingCartService.getItems(userId);
     }
 
-    @PutMapping
-    @ApiOperation(value = "Add new item to the shopping cart.")
-    public ResponseEntity<?> addItem(@Valid @RequestBody ShoppingCartItem item) {
-        shoppingCartService.addItem(item);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/items/{id}")
-    @ApiOperation(value = "Remove item from shopping cart by id.")
-    public ShoppingCartItem removeItem(@PathVariable("id") int id) {
-        return shoppingCartService.removeItem(id).orElseThrow(Http404Exception::new);
+    @PutMapping("/{uid}")
+    @ApiOperation(value = "Save items to a shopping cart.")
+    public ResponseEntity<?> putItems(@PathVariable("uid") String userId,
+                                      @RequestBody @Valid ShoppingCartItem[] items) {
+        shoppingCartService.saveCart(userId, new ShoppingCart(Arrays.asList(items)));
+        return ResponseEntity.noContent().build();
     }
 }

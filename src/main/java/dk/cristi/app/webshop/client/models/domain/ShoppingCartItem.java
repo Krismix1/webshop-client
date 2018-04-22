@@ -1,26 +1,30 @@
 package dk.cristi.app.webshop.client.models.domain;
 
+import dk.cristi.app.webshop.management.models.entities.Product;
+
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class ShoppingCartItem {
 
-    private int id;
-    @Min(value = 0, message = "Price for item cannot be negative.")
-    private double price;
+    private int quantity;
+    private Product product;
 
-    public int getId() {
-        return id;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Min(value = 1, message = "Minimum quantity for a shop cart item is 1.")
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    @NotNull(message = "Product must be provided for shop cart item.")
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
