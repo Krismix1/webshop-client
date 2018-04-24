@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api(tags = {"user"})
 @RestController
 @RequestMapping("/api/users")
-@Api(tags = {"user"})
-public class UserController {
+public class UserResource {
 
     private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public UserController(ShoppingCartService shoppingCartService) {
+    public UserResource(ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
     }
 
+    @ApiOperation("Get a unique token for anonymous users.")
     @GetMapping("/anonymous/key")
-    @ApiOperation("Create a unique key for anonymous users")
     public ResponseEntity<?> createCartKey() {
         String key = createKey();
 

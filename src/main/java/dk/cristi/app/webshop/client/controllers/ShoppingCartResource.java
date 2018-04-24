@@ -10,32 +10,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
+@Api(tags = {"shopping-cart"})
 @RestController
 @RequestMapping("/api/cart")
-@Api(tags = {"shopping-cart"})
-public class ShoppingCartController {
+public class ShoppingCartResource {
 
     private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartService shoppingCartService) {
+    public ShoppingCartResource(ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
     }
 
+    @ApiOperation("Get all items in the shopping cart.")
     @GetMapping("/{uid}/items")
-    @ApiOperation(value = "Get all items in the shopping cart.")
     public List<ShoppingCartItem> getItems(@PathVariable("uid") String userId) {
         return shoppingCartService.getItems(userId);
     }
 
+    @ApiOperation("Save shopping cart linked to uid.")
     @PutMapping("/{uid}")
-    @ApiOperation(value = "Save items to a shopping cart.")
     public ResponseEntity<?> putItems(@PathVariable("uid") String userId,
-                                      @RequestBody @Valid ShoppingCartItem[] items) {
-        shoppingCartService.saveCart(userId, new ShoppingCart(Arrays.asList(items)));
+                                      @Valid @RequestBody ShoppingCart cart) {
+        shoppingCartService.saveCart(userId, cart);
         return ResponseEntity.noContent().build();
     }
 }
