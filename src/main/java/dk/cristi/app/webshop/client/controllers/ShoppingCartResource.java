@@ -1,7 +1,8 @@
 package dk.cristi.app.webshop.client.controllers;
 
-import dk.cristi.app.webshop.client.models.domain.ShoppingCart;
-import dk.cristi.app.webshop.client.models.domain.ShoppingCartItem;
+import dk.cristi.app.webshop.client.controllers.http_exceptions.Http404Exception;
+import dk.cristi.app.webshop.client.models.entities.ShoppingCart;
+import dk.cristi.app.webshop.client.models.entities.ShoppingCartItem;
 import dk.cristi.app.webshop.client.services.ShoppingCartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,17 +25,18 @@ public class ShoppingCartResource {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @ApiOperation("Get all items in the shopping cart.")
+    @ApiOperation("Get the shopping cart for the specified uid (user id).")
     @GetMapping("/{uid}/items")
     public List<ShoppingCartItem> getItems(@PathVariable("uid") String userId) {
-        return shoppingCartService.getItems(userId);
+        return shoppingCartService.getCart(userId).orElseThrow(Http404Exception::new).getItems(); // TODO: 15-May-18 Convert back to ShoppigCart
     }
 
     @ApiOperation("Save shopping cart linked to uid.")
     @PutMapping("/{uid}")
     public ResponseEntity<?> putItems(@PathVariable("uid") String userId,
                                       @Valid @RequestBody ShoppingCart cart) {
-        shoppingCartService.saveCart(userId, cart);
+        cart.setKey(userId);
+        shoppingCartService.saveCart(cart);
         return ResponseEntity.noContent().build();
     }
 }
