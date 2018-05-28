@@ -11,7 +11,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import java.io.IOException;
 
-@Profile("dev")
+//@Profile("dev")
 @Configuration
 public class WebConfigDev implements WebMvcConfigurer {
 
