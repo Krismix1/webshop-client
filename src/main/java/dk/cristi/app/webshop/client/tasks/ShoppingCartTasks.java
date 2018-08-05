@@ -26,6 +26,6 @@ public class ShoppingCartTasks {
     public void cleanCarts() {
         log.info("Starting clean up of carts");
         final List<ShoppingCart> shoppingCarts = shoppingCartService.cleanShoppingCarts();
-        log.info("Deleted x carts".replace('x', Character.forDigit(shoppingCarts.size(), 10)));
+        log.info(String.format("Deleted %d carts", shoppingCarts.size()));
     }
 }

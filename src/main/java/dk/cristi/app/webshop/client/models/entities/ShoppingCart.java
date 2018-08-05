@@ -31,6 +31,9 @@ public class ShoppingCart {
     protected ShoppingCart() {}
     // @formatter:on
 
+    public ShoppingCart(String key) {
+        this.key = key;
+    }
 
     public long getId() {
         return id;

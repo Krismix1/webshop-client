@@ -54,7 +54,7 @@ public class ShoppingCartService {
         final List<ShoppingCart> toDelete = StreamSupport.stream(shoppingCartRepository.findAll().spliterator(), false)
                 .filter(cart -> cart.getRegisteredAt().plusMinutes(maxTimeSpan).isAfter(LocalDateTime.now())) // FIXME: 15-May-18 Timezones
                 .collect(Collectors.toList());
-        shoppingCartRepository.deleteAll(toDelete);
+        shoppingCartRepository.deleteAll(toDelete); // TODO: 02-Aug-18 Delete or mark as deleted?
         final List<ShoppingCartItem> items = toDelete
                 .stream()
                 .flatMap(cart -> cart.getItems().stream())
