@@ -18,6 +18,8 @@ public class ShoppingCartTasks {
     private static final long delay = 30 * 60 * 1000;
     @Value("${cleanup.initialDelay}")
     private static final long initialDelay = 30 * 60 * 1000;
+    @Value("${shoppingCart.maxTimeSpan}")
+    private long maxTimeSpan;
 
     @Autowired
     private ShoppingCartService shoppingCartService;
@@ -25,7 +27,7 @@ public class ShoppingCartTasks {
     @Scheduled(initialDelay = ShoppingCartTasks.initialDelay, fixedDelay = ShoppingCartTasks.delay)
     public void cleanCarts() {
         log.info("Starting clean up of carts");
-        final List<ShoppingCart> shoppingCarts = shoppingCartService.cleanShoppingCarts();
+        final List<ShoppingCart> shoppingCarts = shoppingCartService.cleanShoppingCarts(maxTimeSpan);
         log.info(String.format("Deleted %d carts", shoppingCarts.size()));
     }
 }

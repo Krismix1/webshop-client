@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ShoppingCartRepository extends CrudRepository<ShoppingCart, Long> {
-    Optional<ShoppingCart> findByKey(String key);
+    Optional<ShoppingCart> findByUid(String uid);
 }

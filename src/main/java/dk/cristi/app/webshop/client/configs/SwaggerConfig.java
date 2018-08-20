@@ -31,8 +31,8 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("E-Commerce REST API")
                 .description("API for a web shop")
-                .version("1.0")
-                .contact(new Contact("Cristian Betivu", "", ""))
+                .version("1.0") // FIXME: 06-Aug-18 Extract version from Maven
+                .contact(new Contact("Cristian Betivu", "", "cbetivu@gmail.com"))
                 .build();
     }
 }

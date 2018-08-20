@@ -16,6 +16,16 @@ public class ShoppingCartItem {
     @Min(value = 1, message = "Product id of cart item can't be less than 1.")
     private long product;
 
+    // @formatter:off
+    protected ShoppingCartItem() {}
+    // @formatter:on
+
+    /** This class should only be instantiated by JPA, JSON Deserializer. This constructor is used for tests. */
+    public ShoppingCartItem(int quantity, int product) {
+        this.quantity = quantity;
+        this.product = product;
+    }
+
     public int getQuantity() {
         return quantity;
     }

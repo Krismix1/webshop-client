@@ -8,7 +8,9 @@ import dk.cristi.app.webshop.client.converters.LongTimestampDeserializer;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "carts")
@@ -22,7 +24,7 @@ public class ShoppingCart {
     @OneToMany
     private List<ShoppingCartItem> items;
     @JsonIgnore
-    private String key;
+    private String uid;
     @Convert(converter = LocalDateTimeAttributeConverter.class) // TODO: 15-May-18 Look up how to register a converter
     @JsonDeserialize(using = LongTimestampDeserializer.class)
     private LocalDateTime registeredAt;
@@ -31,8 +33,9 @@ public class ShoppingCart {
     protected ShoppingCart() {}
     // @formatter:on
 
-    public ShoppingCart(String key) {
-        this.key = key;
+    public ShoppingCart(String uid) {
+        this.uid = uid;
+        items = new LinkedList<>(); // FIXME: 06-Aug-18 ???
     }
 
     public long getId() {
@@ -51,12 +54,12 @@ public class ShoppingCart {
         this.items = items;
     }
 
-    public String getKey() {
-        return key;
+    public String getUid() {
+        return uid;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public LocalDateTime getRegisteredAt() {
@@ -65,5 +68,18 @@ public class ShoppingCart {
 
     public void setRegisteredAt(LocalDateTime registeredAt) {
         this.registeredAt = registeredAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingCart that = (ShoppingCart) o;
+        return Objects.equals(uid, that.uid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid);
     }
 }
