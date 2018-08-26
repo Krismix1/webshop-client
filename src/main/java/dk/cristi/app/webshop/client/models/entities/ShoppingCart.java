@@ -21,9 +21,10 @@ public class ShoppingCart {
     private long id;
 //    @NotNull(message = "Items of shopping cart must not be null.")
     @Valid
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<ShoppingCartItem> items;
     @JsonIgnore
+    @Column(unique = true, length = 32)
     private String uid;
     @Convert(converter = LocalDateTimeAttributeConverter.class) // TODO: 15-May-18 Look up how to register a converter
     @JsonDeserialize(using = LongTimestampDeserializer.class)

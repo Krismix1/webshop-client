@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -41,21 +43,39 @@ public class ShoppingCartService {
         final Optional<ShoppingCart> shoppingCartOptional = deleteShoppingCartByKey(cart.getUid());
         // if present, reuse the old id
         shoppingCartOptional.ifPresent(shoppingCart -> cart.setId(shoppingCart.getId()));
+
+        // TODO: 26-Aug-18 Make sure that each item is unique product, thus combine two items if they have same product
+        // Use a LinkedHashMap to persist the order of the items
+        Map<Long, Integer> uniqueItems = new LinkedHashMap<>();
+        for (ShoppingCartItem item : cart.getItems()) {
+            long product = item.getProduct();
+            int previousValue = uniqueItems.getOrDefault(product, 0);
+            int newValue = previousValue + item.getQuantity();
+            uniqueItems.put(product, newValue);
+        }
+        List<ShoppingCartItem> items = uniqueItems.keySet()
+                .stream()
+                .map(product -> new ShoppingCartItem(product, uniqueItems.get(product)))
+                .collect(Collectors.toList());
+        cart.setItems(items);
+
+        // TODO: 26-Aug-18 Remove previous items
         // Save the new cart
         shoppingCartItemRepository.saveAll(cart.getItems());
         return shoppingCartRepository.save(cart);
     }
 
-    public boolean keyIsInUse(String key) {
+    public boolean uidIsInUse(String uid) {
         return StreamSupport.stream(shoppingCartRepository.findAll().spliterator(), false)
-                .anyMatch(cart -> cart.getUid().equals(key));
+                .anyMatch(cart -> cart.getUid().equals(uid));
     }
 
     /**
      * Deletes shopping carts which have been stored for the amount of minutes that is passed as a parameter.
+     *
      * @param span the duration in minutes of how long a shopping cart is allowed to be stored
      * @return the shopping carts that have been removed
-     * */
+     */
     @Transactional
     public List<ShoppingCart> cleanShoppingCarts(long span) {
         if (span <= 0) {

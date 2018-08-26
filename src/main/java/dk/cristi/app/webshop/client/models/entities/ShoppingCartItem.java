@@ -2,6 +2,7 @@ package dk.cristi.app.webshop.client.models.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cart_items")
@@ -21,9 +22,9 @@ public class ShoppingCartItem {
     // @formatter:on
 
     /** This class should only be instantiated by JPA, JSON Deserializer. This constructor is used for tests. */
-    public ShoppingCartItem(int quantity, int product) {
-        this.quantity = quantity;
+    public ShoppingCartItem(long product, int quantity) {
         this.product = product;
+        this.quantity = quantity;
     }
 
     public int getQuantity() {
@@ -48,5 +49,19 @@ public class ShoppingCartItem {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingCartItem item = (ShoppingCartItem) o;
+        return quantity == item.quantity &&
+                product == item.product;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quantity, product);
     }
 }

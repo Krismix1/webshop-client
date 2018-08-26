@@ -35,7 +35,7 @@ public class ShoppingCartResource {
     @PutMapping("/{uid}")
     public ResponseEntity<?> putItems(@PathVariable("uid") String userId,
                                       @Valid @RequestBody ShoppingCart cart) {
-        cart.setKey(userId);
+        cart.setUid(userId);
         shoppingCartService.saveCart(cart);
         return ResponseEntity.noContent().build();
     }

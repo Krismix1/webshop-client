@@ -1,0 +1,1 @@
+INSERT INTO `carts` (id, uid, registered_at) VALUES (NULL, '12345678', '2017-02-20T13:30:00Z');
