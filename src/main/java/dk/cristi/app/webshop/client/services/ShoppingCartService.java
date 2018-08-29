@@ -37,7 +37,7 @@ public class ShoppingCartService {
     }
 
     @Transactional
-    public ShoppingCart saveCart(ShoppingCart cart) {
+    public ShoppingCart save(ShoppingCart cart) {
 
         // Remove the previous saved cart
         final Optional<ShoppingCart> shoppingCartOptional = deleteShoppingCartByKey(cart.getUid());

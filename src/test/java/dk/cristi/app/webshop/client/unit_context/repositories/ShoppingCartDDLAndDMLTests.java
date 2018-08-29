@@ -1,4 +1,4 @@
-package dk.cristi.app.webshop.client.unit_context.services;
+package dk.cristi.app.webshop.client.unit_context.repositories;
 
 import dk.cristi.app.webshop.client.models.entities.ShoppingCart;
 import dk.cristi.app.webshop.client.models.entities.ShoppingCartItem;
@@ -6,7 +6,6 @@ import dk.cristi.app.webshop.client.repositories.ShoppingCartItemRepository;
 import dk.cristi.app.webshop.client.repositories.ShoppingCartRepository;
 import dk.cristi.app.webshop.client.utils.CollectionsUtil;
 import dk.cristi.app.webshop.client.utils.UIDUtils;
-import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.*;
 
@@ -108,7 +108,6 @@ public class ShoppingCartDDLAndDMLTests {
 
     @Test
     public void saveCartItems_thenOK() {
-        // Test is considered succeeded if no exception is thrown
         String uid = UIDUtils.getRandomUid(uidLength);
         LocalDateTime time = LocalDateTime.now(ZoneOffset.UTC);
         List<ShoppingCartItem> items = Arrays.asList(new ShoppingCartItem(12, 2), new ShoppingCartItem(3, 5));
@@ -118,6 +117,7 @@ public class ShoppingCartDDLAndDMLTests {
 
         shoppingCartItemRepository.saveAll(items);
         shoppingCartRepository.save(shoppingCart);
+        assertTrue("Cart should be saved", shoppingCartRepository.findByUid(uid).isPresent());
     }
 
     @Test
@@ -137,20 +137,5 @@ public class ShoppingCartDDLAndDMLTests {
         Set<Long> products = items.stream().map(ShoppingCartItem::getProduct).collect(Collectors.toSet());
         Set<Long> savedProducts = savedCart.getItems().stream().map(ShoppingCartItem::getProduct).collect(Collectors.toSet());
         assertTrue("Should contain all and only the products specified", products.containsAll(savedProducts));
-    }
-
-    @Test
-    public void whenSaveNullItems_thenError() {
-        fail("Not implemented. Move to ShoppingCartServiceTest with context");
-    }
-
-    @Test
-    public void whenSaveNullCollection_thenError() {
-        fail("Not implemented. Move to ShoppingCartServiceTest with context");
-    }
-
-    @Test
-    public void whenSaveEmptyCollection_thenOK() {
-        fail("Not implemented. Move to ShoppingCartServiceTest with context");
     }
 }

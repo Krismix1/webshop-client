@@ -91,7 +91,7 @@ public class ShoppingCartServiceTest {
         shoppingCart.setItems(items);
         shoppingCart.setRegisteredAt(LocalDateTime.now(ZoneOffset.UTC));
 
-        shoppingCartService.saveCart(shoppingCart);
+        shoppingCartService.save(shoppingCart);
         verify(shoppingCartRepository, times(1))
                 .save(shoppingCart);
 
@@ -193,7 +193,7 @@ public class ShoppingCartServiceTest {
         shoppingCart.setItems(items);
         shoppingCart.setRegisteredAt(LocalDateTime.now(ZoneOffset.UTC));
 
-        shoppingCartService.saveCart(shoppingCart);
+        shoppingCartService.save(shoppingCart);
         verify(shoppingCartRepository, times(1))
                 .save(shoppingCart);
 

@@ -31,12 +31,12 @@ public class ShoppingCartResource {
         return shoppingCartService.getCart(userId).orElseThrow(Http404Exception::new).getItems(); // TODO: 15-May-18 Convert back to ShoppigCart
     }
 
-    @ApiOperation("Save shopping cart linked to uid.")
+    @ApiOperation("Save shopping cart linked to user uid.")
     @PutMapping("/{uid}")
     public ResponseEntity<?> putItems(@PathVariable("uid") String userId,
                                       @Valid @RequestBody ShoppingCart cart) {
         cart.setUid(userId);
-        shoppingCartService.saveCart(cart);
+        shoppingCartService.save(cart);
         return ResponseEntity.noContent().build();
     }
 }
